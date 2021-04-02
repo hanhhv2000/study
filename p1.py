@@ -1,5 +1,5 @@
 import streamlit as st
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 import csv
 import urllib.request
 import requests
@@ -137,7 +137,7 @@ def get_khuyen_nghi(ma):
 #     vni = pd.read_csv("https://raw.githubusercontent.com/ThuPhuong2042/project/main/vni_table.csv").drop(
 #         ['a', 'b', 'c', 'd'], axis=1).apply(lambda x: x.str.replace(',', '.'))
     vni = vni.drop(0)
-    vni.head()
+#     vni.head()
     vni['VNI_Close'] = vni['VNI_Close'].astype(float)
 
     for i in range(1, len(vni['Date'])):
@@ -166,8 +166,7 @@ def get_khuyen_nghi(ma):
             stock_return = (Tic['Percent Change'] + 1).cumprod()[-1]
             returns_multiple = round((stock_return / vni_return), 2)
         returns_multiples.append(returns_multiple)
-    rs_df = pd.DataFrame(list(zip(ma, returns_multiples)),
-                         columns=['Ticker', 'Returns_multiple'])
+    rs_df = pd.DataFrame(list(zip(ma, returns_multiples)), columns=['Ticker', 'Returns_multiple'])
     rs_df['RS_Rating'] = rs_df.Returns_multiple.rank(pct=True) * 100
     rs_df = rs_df[rs_df.RS_Rating >= rs_df.RS_Rating.quantile(.70)]
     rs_df = rs_df.sort_values(by='RS_Rating', ascending=False)
